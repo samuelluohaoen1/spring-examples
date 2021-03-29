@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+        <bean id="userService" class="com.daba.service.UserServiceImpl"/>
+        <bean id="beforeLogger" class="com.daba.logger.BeforeLog"/>
+        <bean id="afterLogger" class="com.daba.logger.AfterLog"/>
+
+        <!-- Method 1: use Spring interfaces -->
+<!--        <aop:config>-->
+<!--                &lt;!&ndash; expression format: [Access Mod (default public)] [Return Value] [Class Name] [Method name] [Parameters] &ndash;&gt;-->
+<!--                &lt;!&ndash; e.g. * com.daba.service.UserServiceImpl.*(..) (Any public method with any arguments and any return values under com.daba.service.UserServiceImpl) &ndash;&gt;-->
+<!--                <aop:pointcut id="serviceCut" expression="execution(* com.daba.service.UserServiceImpl.*(..))"/>-->
+<!--                <aop:advisor advice-ref="beforeLogger" pointcut-ref="serviceCut"/>-->
+<!--                <aop:advisor advice-ref="afterLogger" pointcut-ref="serviceCut"/>-->
+<!--        </aop:config>-->
+
+        <!-- Method 2: use aspects  *Note: Method 2 is not as robust as method 1 because you do not get information of the cross-cutting concern. -->
+<!--        <bean id="aspectLogger" class="com.daba.logger.AspectLog"/>-->
+<!--        <aop:config>-->
+<!--                <aop:aspect ref="aspectLogger">-->
+<!--                        <aop:pointcut id="serviceCut" expression="execution(* com.daba.service.UserServiceImpl.*(..))"/>-->
+<!--                        <aop:before method="before" pointcut-ref="serviceCut"/>-->
+<!--                        <aop:after method="after" pointcut-ref="serviceCut"/>-->
+<!--                </aop:aspect>-->
+<!--        </aop:config>-->
+
+        <!-- Method 3: Annotations based aspects-->
+        <aop:aspectj-autoproxy/>
+        <bean id="annoLogger" class="com.daba.logger.AnnoLog"/>
+
+</beans>
